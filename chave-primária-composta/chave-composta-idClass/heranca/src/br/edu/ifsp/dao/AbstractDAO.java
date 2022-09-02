@@ -12,7 +12,7 @@ public abstract class AbstractDAO<T> {
     private final EntityManagerFactory emf;
     
     public AbstractDAO(){
-        emf = Persistence.createEntityManagerFactory("herancaPU");
+        emf = Persistence.createEntityManagerFactory("chave-composta-idClassPU");
     }
     
     protected EntityManager getEntityManager() {
