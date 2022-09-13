@@ -1,6 +1,9 @@
 package br.edu.ifsp.dao;
 
 import br.edu.ifsp.modelo.Pessoa;
+import br.edu.ifsp.pep.dao.AbstractDAO;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -38,4 +41,30 @@ public class PessoaDAO extends AbstractDAO<Pessoa>{
         return query.getSingleResult();
     }
     
+    public void verificarEstadoDoCicloDeVida() {
+        Pessoa p = new Pessoa("Ana", new Date(), new BigDecimal(5000));
+        
+        EntityManager em = getEntityManager();
+        System.out.println(em.contains(p));
+        
+        em.persist(p);
+        
+        System.out.println("Esta no estado gerenciado? " + em.contains(p));
+        
+        em.detach(p);
+        
+        System.out.println("Esta no estado gerenciado? " + em.contains(p));
+    }
+    
+    public void remover(Pessoa p)
+    {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        
+        System.out.println("Está no estado gerenciado?" + em.contains(p));
+        em.remove(em.merge(p));
+        
+        em.getTransaction().commit();
+        em.close();
+    }
 }

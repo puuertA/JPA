@@ -1,4 +1,4 @@
-package br.edu.ifsp.dao;
+package br.edu.ifsp.pep.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,5 +33,14 @@ public abstract class AbstractDAO<T> {
         em.getTransaction().commit();
 
         em.close();
+    }
+    
+    public void remove(T entity) {
+    EntityManager em = getEntityManager();
+    em.getTransaction().begin();
+    em.remove(em.merge(entity));
+    em.getTransaction().commit();
+    
+    em.close();
     }
 }
